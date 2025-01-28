@@ -99,7 +99,9 @@ export class ProductService {
   }
 
   async searchProducts(searchParams: SearchProductDto) {
-    const queryBuilder = this.productRepository.createQueryBuilder('product');
+    const queryBuilder = this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.category', 'category');
 
     if (searchParams.searchTerm) {
       queryBuilder.andWhere('product.name ILIKE :searchTerm', {
