@@ -1,0 +1,29 @@
+# Node.js and frontend-related files
+node_modules/
+dist/
+*.log
+*.env
+.vscode/
+.idea/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tgz
+
+# Build files (e.g., from Vite, NestJS)
+os-admin-backend/dist/
+os-admin-fontend/dist/
+os-admin-backend/node_modules/
+os-admin-fontend/node_modules/
+
+# Docker related
+.docker/
+docker-compose.override.yml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.swp
+uploads/

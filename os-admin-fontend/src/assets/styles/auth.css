@@ -1,0 +1,43 @@
+
+
+.auth-content {
+    position: relative;
+    width: 480px;
+    padding: 15px;
+    z-index: 5;
+}
+
+/*------------------------------------------------------------------
+[3. Cards / .card]
+*/
+.auth-content .card {
+    box-shadow: 0 .125rem .5rem rgba(0, 0, 0, .04);
+    border: 1px solid #eaedf1;
+    border-radius: 5.2px;
+    overflow: hidden;
+}
+
+.auth-content .card .card-block,
+.auth-content .card .card-body {
+    padding: 30px 25px;
+}
+.wrapper a,
+.wrapper p>a {
+    color: #3e8ef7;
+    font-weight: 600;
+}
+.wrapper {
+    background: #f1f1f1;
+    position: absolute;
+    /* Ensure it covers the full viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+}

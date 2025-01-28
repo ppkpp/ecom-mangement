@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./os-admin-backend
+    volumes:
+      - ./os-admin-backend:/usr/src/app
+      - ./os-admin-backend/uploads:/usr/src/app/uploads
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/onlineshop
+    networks:
+      - osnetwork
+      
+  frontend:
+    build:
+      context: ./os-admin-fontend
+    volumes:
+      - ./os-admin-fontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - osnetwork
+    
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: onlineshop
+    networks:
+      - osnetwork
+
+volumes:
+  postgres_data:
+
+networks:
+    osnetwork:
+      driver: bridge
+      
+
+

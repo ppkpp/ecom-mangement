@@ -1,0 +1,182 @@
+:root {
+  --primary-color: #00bcd4; /* Cool, techy cyan for primary buttons and links */
+  --primary-hover: #0097a7; /* Slightly darker shade for hover */
+  --secondary-color: #ff4081; /* Neon pink for accent */
+  --background-color: #121212; /* Dark background for sleek look */
+  --text-color: #ffffff; /* White text for high contrast */
+  --card-background: #1e1e1e; /* Slightly lighter dark background for cards */
+  --button-background: #00bcd4; /* Primary button background */
+  --button-hover: #0097a7; /* Hover state for buttons */
+  --footer-background: #1b1b1b; /* Dark footer for contrast */
+}
+
+a {
+  color: var(--primary-color);
+  transition: 0.3s;
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.wrapper {
+  width: 100%;
+}
+
+#sidebar {
+  background: var(--background-color);
+  color: #fff;
+  min-width: 250px;
+  max-width: 250px;
+  transition: all 0.3s;
+}
+
+#sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  display: block;
+  transition: color 0.3s ease-in-out;
+}
+
+#sidebar .nav-link:hover,
+#sidebar .nav-link.active {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.wrapper.active #sidebar {
+  margin-left: -250px;
+}
+
+#content {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+#sidebar .logo {
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-toggle:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+/* Navbar */
+.navbar {
+  background: #f8f9fa; /* Light gray background for better contrast */
+  padding: 12px 20px;
+}
+
+/* Navigation Links */
+.navbar .nav-link {
+  color: #333; /* Dark text for visibility */
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--primary-color-hover);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Logout Button */
+.logout-btn {
+  background: none;
+  border: none;
+  color: #d9534f;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+
+.title {
+  font-family: 'Inter', sans-serif; /* Consistent font family */
+  font-weight: 500;
+  font-size: 24px; /* Good size for toolbar title */
+  color: var(--primary-color); /* Matches primary theme color */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+
+.icon {
+  font-size: 20px;
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+  color: var(--primary-color)/* Matches your theme color */
+}
+
+.logout-icon:hover {
+  color: var(--primary-color); /* Logout in red */
+}
+
+/* Badge for notifications */
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+.user-title {
+  font-family: 'Inter', sans-serif; /* Consistent font family */
+  font-weight: 500;
+  font-size: 18px; /* Good size for toolbar title */
+ 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+
+.user-role {
+  font-family: 'Inter', sans-serif; /* Consistent font family */
+  font-weight: 400;
+  font-size: 14px; /* Good size for toolbar title */
+ 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
