@@ -1,19 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createProduct, deleteProduct, getAllProduct, getPaginateProduct, getProductById, updateProduct } from "../api/productApi";
+import {
+  createProduct,
+  deleteProduct,
+  getAllProduct,
+  getPaginateProduct,
+  getProductById,
+  updateProduct,
+} from "../api/productApi";
 
-export const useProductList = (onSuccess,onError)=>
-{
-    return useQuery("product-list", getAllProduct,{
-        onSuccess:onSuccess??((data)=>console.log(data)),
-        onError:onError??((error)=>console.error(error))    
-    });
-}
+export const useProductList = (onSuccess, onError) => {
+  return useQuery("product-list", getAllProduct, {
+    onSuccess: onSuccess ?? ((data) => console.log(data)),
+    onError: onError ?? ((error) => console.error(error)),
+  });
+};
 
-
-export const usePaginateProductList = (pageNumber, onSuccess, onError) => {
+export const usePaginateProductList = (
+  pageNumber,
+  searchParams,
+  onSuccess,
+  onError
+) => {
   return useQuery(
-    ["product-list", pageNumber],
-    ()=>getPaginateProduct(pageNumber),
+    ["product-list", pageNumber, searchParams],
+    () => getPaginateProduct(pageNumber, searchParams),
     {
       onSuccess: onSuccess ?? ((data) => console.log(data)),
       onError: onError ?? ((error) => console.error(error)),
@@ -21,14 +31,12 @@ export const usePaginateProductList = (pageNumber, onSuccess, onError) => {
   );
 };
 
-export const useAddProduct = (onSuccess,onError)=>
-{
-    return useMutation(createProduct,{
-        onSuccess:onSuccess??((data)=>console.log(data)),
-        onError:onError??((error)=>console.error(error))
-    });
-}
-
+export const useAddProduct = (onSuccess, onError) => {
+  return useMutation(createProduct, {
+    onSuccess: onSuccess ?? ((data) => console.log(data)),
+    onError: onError ?? ((error) => console.error(error)),
+  });
+};
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
@@ -47,7 +55,6 @@ export const useProductById = (id) => {
     enabled: !!id,
   });
 };
-
 
 export const useUpdateProduct = (onSuccess, onError) => {
   return useMutation(updateProduct, {

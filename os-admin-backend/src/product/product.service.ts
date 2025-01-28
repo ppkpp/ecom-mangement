@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
+import { SearchProductDto } from './dto/search-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -95,5 +96,58 @@ export class ProductService {
       throw new NotFoundException();
     }
     return await this.productRepository.remove(product);
+  }
+
+  async searchProducts(searchParams: SearchProductDto) {
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
+
+    if (searchParams.searchTerm) {
+      queryBuilder.andWhere('product.name ILIKE :searchTerm', {
+        searchTerm: `%${searchParams.searchTerm}%`,
+      });
+    }
+
+    if (searchParams.minPrice !== undefined) {
+      queryBuilder.andWhere('product.price >= :minPrice', {
+        minPrice: searchParams.minPrice,
+      });
+    }
+
+    if (searchParams.maxPrice !== undefined) {
+      queryBuilder.andWhere('product.price <= :maxPrice', {
+        maxPrice: searchParams.maxPrice,
+      });
+    }
+
+    if (searchParams.minStock !== undefined) {
+      queryBuilder.andWhere('product.stock >= :minStock', {
+        minStock: searchParams.minStock,
+      });
+    }
+
+    if (searchParams.maxStock !== undefined) {
+      queryBuilder.andWhere('product.stock <= :maxStock', {
+        maxStock: searchParams.maxStock,
+      });
+    }
+
+    const page = searchParams.page || 1;
+    const limit = searchParams.limit || 8;
+    const offset = (page - 1) * limit;
+
+    const [products, total] = await queryBuilder
+      .skip(offset)
+      .take(limit)
+      .getManyAndCount();
+
+    return {
+      data: products,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 }

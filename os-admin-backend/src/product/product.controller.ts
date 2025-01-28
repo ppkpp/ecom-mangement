@@ -15,11 +15,9 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/enums/role.enum';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { SearchProductDto } from './dto/search-product.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('product')
@@ -33,12 +31,18 @@ export class ProductController {
   }
 
   @Get()
-  async getPaginateProduct(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-  ) {
-    return this.productService.paginate(+page, +limit);
+  @UsePipes(new ValidationPipe({ transform: true })) // Enable automatic transformation
+  async searchProducts(@Query() query: SearchProductDto) {
+    return this.productService.searchProducts(query);
   }
+
+  // @Get()
+  // async getPaginateProduct(
+  //   @Query('page') page: number = 1,
+  //   @Query('limit') limit: number = 10,
+  // ) {
+  //   return this.productService.paginate(+page, +limit);
+  // }
 
   // @Get()
   // findAll() {

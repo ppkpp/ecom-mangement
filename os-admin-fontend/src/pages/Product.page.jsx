@@ -1,72 +1,175 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   useDeleteProduct,
   usePaginateProductList,
 } from "../hooks/useProductApi";
 import { ProductCard } from "../components/product/ProductCard";
 import { Link, useNavigate } from "react-router-dom";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch, FaTimes } from "react-icons/fa";
 import { TablePaginate } from "../components/TablePaginate";
+
 export const ProductPage = () => {
-  const navigate = useNavigate(); // Use useNavigate to get the navigate function
+  const navigate = useNavigate();
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  //const { isLoading, data, isError, error, refetch } = useProductList();
+  const [hasFilters, setHasFilters] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+  const [searchParams, setSearchParams] = useState({
+    searchTerm: "",
+    minPrice: "",
+    maxPrice: "",
+    minStock: "",
+    maxStock: "",
+  });
+
+  // React Hook Form
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: searchParams,
+  });
+
+  // Fetch products with pagination & filters
   const { isLoading, data, isError, error, refetch } = usePaginateProductList(
     pageNumber,
-    (data) => {
-      console.log("Perform side effect after Paginate Product fetching", data);
-    }
+    searchParams,
+    (data) => console.log("Fetched Products:", data)
   );
 
-
   const { mutate: deleteProduct } = useDeleteProduct();
-    const handleDelete = async (id) => {
-      await deleteProduct(id);
-    };
+
+  const handleDelete = async (id) => {
+    await deleteProduct(id);
+    refetch();
+  };
+
+  // Handle search form submission
+  const onSubmit = (values) => {
+    setHasFilters(true)
+    setSearchParams(values);
+    setPageNumber(1);
+    refetch();
+  };
+
+  // Reset search filters
+  const handleReset = () => {
+    reset({
+      searchTerm: "",
+      minPrice: "",
+      maxPrice: "",
+      minStock: "",
+      maxStock: "",
+    });
+    setSearchParams({
+      searchTerm: "",
+      minPrice: "",
+      maxPrice: "",
+      minStock: "",
+      maxStock: "",
+    });
+    setHasFilters(false)
+    setPageNumber(1);
+    refetch();
+  };
+
   return (
     <>
-      <div className="page-title">
-        <h3>
-          <span className="title">ProductS</span>
-          <Link
-            to="/add-product"
-            className="btn btn-sm btn-outline-primary float-end"
-          >
-            <FaPlus size={16} /> Add Product
-          </Link>
-        </h3>
+      <div className="page-title d-flex justify-content-between align-items-center">
+        <h3 className="m-0">Products</h3>
+        <Link to="/add-product" className="btn btn-outline-primary">
+          <FaPlus className="me-1" /> Add Product
+        </Link>
       </div>
-      <div className="col-md-12 col-lg-12">
-        <div className="row">
+
+      <div className="col-12 mt-3">
+        {/* Search Bar */}
+        <form
+          className="p-3 bg-light rounded shadow-sm"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="row g-2 align-items-center">
+            <div className="col-md">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search by name..."
+                {...register("searchTerm")}
+              />
+            </div>
+            <div className="col-md">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Min Price"
+                {...register("minPrice")}
+              />
+            </div>
+            <div className="col-md">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Max Price"
+                {...register("maxPrice")}
+              />
+            </div>
+            <div className="col-md">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Min Stock"
+                {...register("minStock")}
+              />
+            </div>
+            <div className="col-md">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Max Stock"
+                {...register("maxStock")}
+              />
+            </div>
+            <div className="col-md-auto d-flex gap-2">
+              {!hasFilters ? (
+                <button
+                  type="submit"
+                  className="btn btn-primary d-flex align-items-center"
+                >
+                  <FaSearch className="me-1" /> Search
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-secondary d-flex align-items-center"
+                  onClick={handleReset}
+                >
+                  <FaTimes className="me-1" /> Clear
+                </button>
+              )}
+            </div>
+          </div>
+        </form>
+
+        <div className="row mt-3">
           {isLoading && (
-            <tr>
-              <td colSpan="6" className="text-center">
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </td>
-            </tr>
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
           )}
           {!isLoading &&
             !isError &&
-            data?.data.data.map((product) => (
+            data?.data?.data?.map((product) => (
               <ProductCard
                 key={product.id}
                 SERVER_URL={SERVER_URL}
                 product={product}
-                onEdit={() => {
-                  navigate("/add-product/" + product.id); // Correct usage of navigate
-                }}
-                onDelete={() => {
-                  handleDelete(product.id);
-                }}
+                onEdit={() => navigate("/add-product/" + product.id)}
+                onDelete={() => handleDelete(product.id)}
               />
             ))}
 
           {!isLoading && !isError && (
             <TablePaginate
-              meta={data?.data.meta}
+              meta={data?.data?.meta}
               setPageNumber={setPageNumber}
             />
           )}

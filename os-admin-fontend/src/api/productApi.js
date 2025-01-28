@@ -4,10 +4,11 @@ export const getAllProduct = () => {
     return request({ url: `/product` })
 }
 
-export const getPaginateProduct = (pageNumber) => {
+export const getPaginateProduct = (pageNumber, searchParams = {}) => {
+    const queryParams = new URLSearchParams({ limit: 8, page: pageNumber, ...searchParams }).toString();
 
-    return request({ url: `/product?limit=8&page=${pageNumber}` })
-}
+    return request({ url: `/product?${queryParams}` });
+};
 
 export const getProductById = (id) => {
     return request({
