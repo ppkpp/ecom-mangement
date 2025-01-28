@@ -123,7 +123,7 @@ export const UserPage = () => {
                           {user.active ? "Active" : "Banned"}
                         </span>
                       </td>
-                       {auth.user.role === "manager" ?? <td className="text-start">
+                       {auth.user.role === "manager" && <td className="text-start">
                         <button
                           className="btn btn-outline-primary btn-sm me-2"
                           title="Edit User"

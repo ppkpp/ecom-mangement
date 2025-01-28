@@ -26,7 +26,7 @@ import { Notification } from './notification/entities/notification.entity';
       port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      entities: [Category, Product, User,Banner,Notification],
+      entities: [Category, Product, User, Banner, Notification],
       database: process.env.DB_NAME,
       synchronize: true,
       logging: true,

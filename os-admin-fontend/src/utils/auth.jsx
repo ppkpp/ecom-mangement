@@ -1,8 +1,13 @@
 import { createContext, useContext, useState } from "react";
-
+import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const [refreshToken, setRefreshToken] = useState(() => {
+    const savedToken = localStorage.getItem("refresh-token");
+    return savedToken ? savedToken : null;
+  });
+
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem("token");
     return savedToken ? savedToken : null;
@@ -18,12 +23,22 @@ export const AuthProvider = ({ children }) => {
     return savedAuthStatus === "true"; // Convert string to boolean
   });
   const login = (userinfo) => {
-    const { data, ...user } = userinfo;
-    setToken(data);
-    setUser(user);
+    const { refreshToken, accessToken } = userinfo;
+
+    try {
+      const decodedUser = jwtDecode(accessToken);
+      console.log(decodedUser);
+      setUser(decodedUser);
+      localStorage.setItem("user", JSON.stringify(decodedUser));
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+    setToken(accessToken);
+    setRefreshToken(refreshToken);
     setIsAuthenticated(true);
-    localStorage.setItem("token", data);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("refresh-token", refreshToken);
+
     localStorage.setItem("isAuthenticated", "true");
   };
   const logout = () => {

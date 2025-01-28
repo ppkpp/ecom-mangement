@@ -20,9 +20,12 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const { password, id, username, role, ...payload } = user;
-    payload['id'] = id;
-    return { data: this.jwtService.sign(payload), id, username, role };
+    const { password, ...payload } = user;
+
+    return {
+      accessToken: this.jwtService.sign(payload),
+      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    };
   }
 
   async validateUserById(userId: number) {
@@ -30,5 +33,12 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('User not found!');
     const currentUser: CurrentUser = { id: user.id, role: user.role };
     return currentUser;
+  }
+
+  async refreshToken(payload: any) {
+    return {
+      accessToken: this.jwtService.sign(payload),
+      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    };
   }
 }
