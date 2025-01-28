@@ -5,6 +5,7 @@ export const getAllProduct = () => {
 }
 
 export const getPaginateProduct = (pageNumber) => {
+
     return request({ url: `/product?limit=8&page=${pageNumber}` })
 }
 

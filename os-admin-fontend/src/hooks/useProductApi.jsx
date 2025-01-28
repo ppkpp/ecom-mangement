@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createProduct, deleteProduct, getAllProduct, getProductById, updateProduct } from "../api/productApi";
+import { createProduct, deleteProduct, getAllProduct, getPaginateProduct, getProductById, updateProduct } from "../api/productApi";
 
 export const useProductList = (onSuccess,onError)=>
 {
@@ -11,10 +11,14 @@ export const useProductList = (onSuccess,onError)=>
 
 
 export const usePaginateProductList = (pageNumber, onSuccess, onError) => {
-  return useQuery(["product-list",pageNumber],getAllProduct, {
-    onSuccess: onSuccess ?? ((data) => console.log(data)),
-    onError: onError ?? ((error) => console.error(error)),
-  });
+  return useQuery(
+    ["product-list", pageNumber],
+    ()=>getPaginateProduct(pageNumber),
+    {
+      onSuccess: onSuccess ?? ((data) => console.log(data)),
+      onError: onError ?? ((error) => console.error(error)),
+    }
+  );
 };
 
 export const useAddProduct = (onSuccess,onError)=>

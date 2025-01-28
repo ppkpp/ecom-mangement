@@ -15,7 +15,7 @@ export const ProductPage = () => {
   const { isLoading, data, isError, error, refetch } = usePaginateProductList(
     pageNumber,
     (data) => {
-      console.log("Perform side effect after data fetching", data);
+      console.log("Perform side effect after Paginate Product fetching", data);
     }
   );
 
