@@ -20,7 +20,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Role } from 'src/auth/enums/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
-@Roles(Role.Admin,Role.Manager)
+@Roles(Role.Admin, Role.Manager)
 @UseGuards(RolesGuard)
 @UseGuards(JwtAuthGuard)
 @Controller('category')
@@ -30,11 +30,9 @@ export class CategoryController {
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createCategoryDto: CreateCategoryDto) {
-    console.log(createCategoryDto);
     return this.categoryService.create(createCategoryDto);
   }
 
- 
   @Get('list')
   findAll() {
     return this.categoryService.findAll();

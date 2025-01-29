@@ -18,6 +18,7 @@ import { NotiPage } from "../pages/Noti.page.jsx";
 import { OrderPage } from "../pages/Order.page.jsx";
 import { OrderDetailPage } from "../pages/OrderDetail.page.jsx";
 import { CustomerPage } from "../pages/Customer.page.jsx";
+import OrderNotiPage from "../pages/OrderNoti.page.jsx";
 
 function AppRoutes() {
   return (
@@ -99,6 +100,14 @@ function AppRoutes() {
         element={
           <RequireAuth>
             <AddBannerPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/order-noti"
+        element={
+          <RequireAuth>
+            <OrderNotiPage />
           </RequireAuth>
         }
       />

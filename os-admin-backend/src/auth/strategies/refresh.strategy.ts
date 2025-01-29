@@ -18,8 +18,6 @@ export class JWTRefreshStrategy extends PassportStrategy(
 
   validate(payload: any) {
     const userId = payload.id;
-    console.log("***********88")
-    console.log(userId);
     return this.authService.validateUserById(userId);
   }
 }

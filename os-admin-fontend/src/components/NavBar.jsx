@@ -16,8 +16,10 @@ export const NavBar = ({ user,toggleSidebar, logout }) => {
           <FaBars className="icon" />
         </button>
         {/* Title in the Toolbar */}
-        <p className="user-title m-1">{user.username}</p>   
-        <p className="user-role mt-1">{"  "} ({user.role})</p>
+        <div className="d-flex align-items-center ms-3">
+          <p className="user-title m-0 fw-bold">{user.username}</p>
+          <p className="user-role m-0 ms-2 text-muted">({user.role})</p>
+        </div>
         {/* Navigation Links */}
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav ms-auto">
