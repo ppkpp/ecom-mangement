@@ -4,9 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { join } from 'path';
 import * as express from 'express';
+import { ConsoleLogger } from '@nestjs/common';
 dotenv.config();
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger(),
+  });
   app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
   app.enableCors({
     origin: 'http://localhost:5173', // Allow frontend URL

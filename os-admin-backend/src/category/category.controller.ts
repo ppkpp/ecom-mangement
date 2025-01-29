@@ -34,13 +34,11 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
-  // @Roles(Role.Admin)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(JwtAuthGuard)
-  // @Get()
-  // findAll() {
-  //   return this.categoryService.findAll();
-  // }
+ 
+  @Get('list')
+  findAll() {
+    return this.categoryService.findAll();
+  }
 
   @Get()
   async getCategories(

@@ -1,5 +1,5 @@
 import { FaPlus, FaRegTrashAlt, FaPen, FaExclamationTriangle } from "react-icons/fa";
-import { useCategoryList, useDeleteCategory } from "../hooks/useCategoryApi";
+import {  useDeleteCategory, usePaginateCategoryList } from "../hooks/useCategoryApi";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { TablePaginate } from "../components/TablePaginate";
@@ -8,7 +8,7 @@ export const CategoryPage = () => {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(1);
-  const { isLoading, data, isError, error, refetch } = useCategoryList(
+  const { isLoading, data, isError, error, refetch } = usePaginateCategoryList(
     pageNumber,
     (data) => {
       console.log("Perform side effect after data fetching", data);

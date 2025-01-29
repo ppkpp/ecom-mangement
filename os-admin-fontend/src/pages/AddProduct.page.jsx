@@ -51,20 +51,17 @@ export const AddProductPage = () => {
   const { register, handleSubmit, formState, reset, setValue } = form;
   const { errors } = formState;
 
-
-   const { mutate: updateProduct } = useUpdateProduct((data) => {
-      navigate("/product");
-    });
+  const { mutate: updateProduct } = useUpdateProduct((data) => {
+    navigate("/product");
+  });
   const onSubmit = async (formdata) => {
-    
-     isEdit ? updateProduct({ id, ...formdata }) : addProduct(formdata);
+    isEdit ? updateProduct({ id, ...formdata }) : addProduct(formdata);
     console.log(formdata);
   };
 
   const [categories, setCategories] = useState([]);
   const { isLoading, data, isError, error, refetch } = useCategoryList(
     (response) => {
-      console.log(response);
       setCategories(response.data);
     }
   );
@@ -77,7 +74,7 @@ export const AddProductPage = () => {
               className="m-0 title"
               style={{ fontSize: "1.25rem", fontWeight: "600" }}
             >
-              {isEdit? "Edit" : "Add New Product"}
+              {isEdit ? "Edit" : "Add New Product"}
             </h5>
             {/* <button className="btn btn-outline-secondary btn-sm">
               <i className="fas fa-info-circle"></i> Help

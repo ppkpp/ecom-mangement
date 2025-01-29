@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +13,7 @@ import * as bcrypt from 'bcryptjs';
 import { Role } from 'src/auth/enums/role.enum';
 @Injectable()
 export class UserService implements OnModuleInit {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -39,9 +45,9 @@ export class UserService implements OnModuleInit {
 
       // Save the user in the database
       await this.userRepository.save(adminUser);
-      console.log('Admin user created!');
-      console.log(`User alread exists with admin role!.`);
+      this.logger.warn('Admin user created!');
     }
+    this.logger.warn(`User alread exists with admin role!.`);
   }
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);

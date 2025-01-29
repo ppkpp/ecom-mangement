@@ -67,17 +67,18 @@ export const ProductPage = () => {
     });
     setHasFilters(false)
     setPageNumber(1);
+   
     refetch();
   };
 
   return (
     <>
-      <div className="page-title d-flex justify-content-between align-items-center">
+      {/* <div className="page-title d-flex justify-content-between align-items-center">
         <h3 className="m-0">Products</h3>
         <Link to="/add-product" className="btn btn-outline-primary">
           <FaPlus className="me-1" /> Add Product
         </Link>
-      </div>
+      </div> */}
 
       <div className="col-12 mt-3">
         {/* Search Bar */}
@@ -89,7 +90,7 @@ export const ProductPage = () => {
             <div className="col-md">
               <input
                 type="text"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Search by name..."
                 {...register("searchTerm")}
               />
@@ -97,7 +98,7 @@ export const ProductPage = () => {
             <div className="col-md">
               <input
                 type="number"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Min Price"
                 {...register("minPrice")}
               />
@@ -105,7 +106,7 @@ export const ProductPage = () => {
             <div className="col-md">
               <input
                 type="number"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Max Price"
                 {...register("maxPrice")}
               />
@@ -113,7 +114,7 @@ export const ProductPage = () => {
             <div className="col-md">
               <input
                 type="number"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Min Stock"
                 {...register("minStock")}
               />
@@ -121,32 +122,43 @@ export const ProductPage = () => {
             <div className="col-md">
               <input
                 type="number"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Max Stock"
                 {...register("maxStock")}
               />
             </div>
             <div className="col-md-auto d-flex gap-2">
-              {!hasFilters ? (
+              {!hasFilters && (
                 <button
                   type="submit"
-                  className="btn btn-primary d-flex align-items-center"
+                  className="btn btn-primary d-flex align-items-center justify-content-center"
+                  aria-label="Search" // Add aria-label for accessibility
                 >
-                  <FaSearch className="me-1" /> Search
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn-secondary d-flex align-items-center"
-                  onClick={handleReset}
-                >
-                  <FaTimes className="me-1" /> Clear
+                  <FaSearch className="me-1" />
                 </button>
               )}
+
+              {hasFilters && (
+                <button
+                  type="button"
+                  className="btn btn-secondary d-flex align-items-center justify-content-center"
+                  onClick={handleReset}
+                  aria-label="Reset" // Add aria-label for accessibility
+                >
+                  <FaTimes className="me-1" />
+                </button>
+              )}
+
+              <Link
+                to="/add-product"
+                className="btn btn-outline-primary d-flex align-items-center justify-content-center"
+                aria-label="Add Product" // Add aria-label for accessibility
+              >
+                <FaPlus /> {/* Icon only */}
+              </Link>
             </div>
           </div>
         </form>
-
         <div className="row mt-3">
           {isLoading && (
             <div className="text-center">
@@ -166,14 +178,13 @@ export const ProductPage = () => {
                 onDelete={() => handleDelete(product.id)}
               />
             ))}
-
-          {!isLoading && !isError && (
-            <TablePaginate
-              meta={data?.data?.meta}
-              setPageNumber={setPageNumber}
-            />
-          )}
         </div>
+        {!isLoading && !isError && (
+          <TablePaginate
+            meta={data?.data?.meta}
+            setPageNumber={setPageNumber}
+          />
+        )}
       </div>
     </>
   );

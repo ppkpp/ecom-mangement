@@ -1,6 +1,10 @@
 import { request } from "../utils/axios-utils"
 
-export const getAllCategory = (pageNumber) => {
+export const getAllCategory = () => {
+    return request({ url: `/category/list` })
+}
+
+export const getPaginateCategory = (pageNumber) => {
     return request({ url: `/category?limit=10&page=${pageNumber}` })
 }
 

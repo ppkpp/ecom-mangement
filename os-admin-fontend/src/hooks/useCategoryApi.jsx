@@ -4,15 +4,27 @@ import {
   deleteCategory,
   getAllCategory,
   getCategoryById,
+  getPaginateCategory,
   updateCategory,
 } from "../api/categoryApi";
 
-export const useCategoryList = (pageNumber, onSuccess, onError) => {
-  return useQuery(["category", pageNumber], () => getAllCategory(pageNumber), {
+export const useCategoryList = (onSuccess, onError) => {
+  return useQuery(["category"], getAllCategory, {
     onSuccess: onSuccess ?? ((data) => console.log(data)),
     onError: onError ?? ((error) => console.error(error)),
     keepPreviousData: true, // Helps with pagination smoothness
   });
+};
+
+export const usePaginateCategoryList = (pageNumber, onSuccess, onError) => {
+  return useQuery(
+    ["category", pageNumber],
+    () => getPaginateCategory(pageNumber),
+    {
+      onSuccess: onSuccess ?? ((data) => console.log(data)),
+      onError: onError ?? ((error) => console.error(error)),
+    }
+  );
 };
 
 export const useAddCategory = (onSuccess, onError) => {
